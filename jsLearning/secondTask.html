@@ -40,9 +40,9 @@ var aqiData = [
   for (var j = 0; j < count; j++) {
     for(var k=j+1;k<count;k++){
      if(tempData[j][1]<tempData[k][1]){
-        var temp=tempData[k][1];
-        tempData[k][1]=tempData[j][1];
-        tempData[j][1]=temp;
+        var temp=tempData[k];
+        tempData[k]=tempData[j];
+        tempData[j]=temp;
      }
    }   
 }
