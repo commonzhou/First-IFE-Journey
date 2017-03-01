@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>队列</title>	
+</head>
+<body>
+  <div>
+  <input type="text" id="input">
+  <input class="command" id="insertBefore" type="button" value="左侧入">
+   <input class="command" id="insertAfter" type="button" value="右侧入">
+    <input class="command" id="removeBefore" type="button" value="左侧出">
+     <input class="command" id="removeAfter" type="button" value="右侧出">
+</div>
+<ul id="queue">
+	<li class="num">10</li>
+	<li class="num">3</li>
+	<li class="num">7</li>
+	<li class="num">12</li>
+	<li class="num">11</li>
+	<li class="num">30</li>
+</ul>
+<style>
+  input.command{
+  	
+  	border:1px solid black;
+  	color:black;
+  	font-size:1.5em;
+  }
+  li.num{
+  	display: inline;
+  	border: 1px solid red;
+    color:white;
+    background-color: red;
+    font-size:2.5em;
+  
+  }
+</style>
+<script type="text/javascript">
+var leftIn=document.getElementById("insertBefore");
+var rightIn=document.getElementById("insertAfter");
+var leftOut=document.getElementById("removeBefore");
+var rightOut=document.getElementById("removeAfter");
+var queue=document.getElementById("queue");
+var input=document.getElementById("input");
+var item=document.getElementsByTagName("li");
+if(isNaN(input.value)==true){
+	alert("请输入数字：");
+}
+else{
+leftIn.onclick=function(){
+  var left=document.createElement("li");
+  left.innerHTML=input.value;
+  left.setAttribute("class","num");
+  queue.insertBefore(left,queue.firstChild);
+
+}
+rightIn.onclick=function(){
+  var right=document.createElement("li");
+  right.innerHTML=input.value;
+  right.setAttribute("class","num");
+  queue.appendChild(right); 
+}
+leftOut.onclick=function(){
+  var temp=queue.removeChild(queue.firstChild);
+  if(temp==undefined){
+    temp=queue.removeChild(queue.firstChild);
+   alert(temp.innerHTML);
+}
+}
+rightOut.onclick=function(){
+  var temp=queue.removeChild(queue.lastChild);
+  if(temp==undefined){
+    temp=queue.removeChild(queue.lastChild);
+   alert(temp.innerHTML);
+}
+}
+for(i=0;i<item.length;i++){
+item[i].onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+}
+}
+</script>
+</body>
+</html>
