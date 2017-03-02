@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>队列</title>	
+</head>
+<body>
+  <div>
+  <input type="text" id="input" value="10">
+  <input class="command" id="insertBefore" type="button" value="左侧入">
+   <input class="command" id="insertAfter" type="button" value="右侧入">
+    <input class="command" id="removeBefore" type="button" value="左侧出">
+     <input class="command" id="removeAfter" type="button" value="右侧出">
+       <input class="command" id="sort" type="button" value="冒泡排序">
+</div>
+<div id="queue">
+	<div class="num">10</div>
+	<div class="num">22</div>
+	<div class="num">37</div>
+	<div class="num">28</div>
+	<div class="num">11</div>
+	<div class="num">30</div>
+  <div class="num">15</div>
+  <div class="num">33</div>
+  <div class="num">52</div>
+  <div class="num">61</div>
+  <div class="num">41</div>
+  <div class="num">30</div>
+</div>
+<style>
+div#queue{
+  position: relative;
+  width:555px;
+  height:500px;
+  border: 1px blue solid;
+  background-color: black;
+}
+  input.command{
+  	
+  	border:1px solid black;
+  	color:black;
+  	font-size:1.5em;
+  }
+  div.num{
+    position: absolute;
+    bottom: 0px;
+  	border: 1px solid brown;
+    color:red;
+    background-color: red;
+    width:25px;
+  }
+  
+</style>
+<script type="text/javascript">
+var leftIn=document.getElementById("insertBefore");
+var rightIn=document.getElementById("insertAfter");
+var leftOut=document.getElementById("removeBefore");
+var rightOut=document.getElementById("removeAfter");
+var queue=document.getElementById("queue");
+var input=document.getElementById("input");
+var item=document.getElementsByClassName("num");
+var sort=document.getElementById("sort");
+var regex=new RegExp("[10-100]");
+
+  var j=0;
+leftIn.onclick=function(){
+  if(!regex.test(input.value)){
+  alert("请输入10到100的数字： ");
+}
+else{
+  var left=document.createElement("div");
+  left.setAttribute("class","num");
+  left.innerHTML=input.value;
+  left.style.height=left.innerHTML*8+"px";
+  left.style.left=100-26*(j+1)+"px";
+  queue.insertBefore(left,queue.firstChild);
+  j++;
+  if(item.length>60){
+    alert("超过60个了");
+  }
+}
+}
+rightIn.onclick=function(){
+  if(!regex.test(input.value)){
+  alert("请输入10到100的数字： ");
+}
+else{
+  var right=document.createElement("div");
+  right.innerHTML=input.value;
+  right.setAttribute("class","num");
+  right.style.height=right.innerHTML*8+"px";
+  right.style.left=100+26*item.length+"px";
+  queue.appendChild(right); 
+  if(item.length>60){
+    alert("超过60个了");
+  }
+}
+}
+leftOut.onclick=function(){
+  var temp=queue.removeChild(queue.firstChild);
+   alert(temp.innerHTML);
+}
+rightOut.onclick=function(){
+  var temp=queue.removeChild(queue.lastChild);
+   alert(temp.innerHTML);
+}
+
+var arr=new Array();
+
+for(var i=0;i<item.length;i++){
+  item[i].style.height=item[i].innerHTML*8+"px";
+  item[i].style.left=100+26*i+"px";
+  arr.push(item[i].innerHTML);
+  item[i].onclick=function(){
+     var temp=queue.removeChild(this);
+     alert(temp.innerHTML);
+  }
+}
+/////////
+
+ 
+sort.onclick=function(){
+
+var temp=[];
+////排序函数
+function bubblesort(arr){
+  for (var i = 0; i <arr.length;i++) {
+  for (var j = i+1; j < arr.length; j++) {
+     if(arr[i]>arr[j]){
+        var storage=arr[i];
+        arr[i]=arr[j];
+        arr[j]=storage;
+        temp.push(JSON.parse(JSON.stringify(arr)));
+     }
+  };
+};
+}
+////绘制函数
+function draw(){
+  
+  var list,t;
+  t=temp.shift()||[];
+  for(list in item){
+   item[list].style.height=t[list]*8+"px";
+   item[list].style.left=100+26*list+"px";
+  }
+}
+bubblesort(arr);
+setInterval(draw,500);
+
+
+}
+
+/////////
+
+</script>
+</body>
+</html>
