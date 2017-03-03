@@ -44,7 +44,7 @@ var rightOut=document.getElementById("removeAfter");
 var queue=document.getElementById("queue");
 var input=document.getElementById("input");
 var item=document.getElementsByTagName("li");
-var reg=/\d+/;                            //正则判断输入的是否为数字
+var reg=/^(\d+)$/;                            //正则判断输入的是否为数字
 leftIn.onclick=function(){
 if(!reg.test(input.value)){
 	alert("please input a number ");
