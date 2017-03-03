@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>队列</title>	
+</head>
+<body>
+  <div>
+  <textarea id="input"></textarea>
+  <input class="command" id="insertBefore" type="button" value="左侧入">
+   <input class="command" id="insertAfter" type="button" value="右侧入">
+    <input class="command" id="removeBefore" type="button" value="左侧出">
+     <input class="command" id="removeAfter" type="button" value="右侧出">
+      <input type="text" id="query">
+       <input class="command" id="searcher" type="button" value="搜索">
+
+</div>
+<ul id="queue">
+	<li class="num">10</li>
+	<li class="num">3</li>
+	<li class="num">7</li>
+	<li class="num">12</li>
+	<li class="num">11</li>
+	<li class="num">30</li>
+</ul>
+<style>
+  input.command{
+  	
+  	border:1px solid black;
+  	color:black;
+  	font-size:1.5em;
+  }
+  li.num{
+  	display: inline;
+  	border: 1px solid red;
+    color:white;
+    background-color: red;
+    font-size:2.5em;
+  
+  }
+</style>
+<script type="text/javascript">
+var leftIn=document.getElementById("insertBefore");
+var rightIn=document.getElementById("insertAfter");
+var leftOut=document.getElementById("removeBefore");
+var rightOut=document.getElementById("removeAfter");
+var queue=document.getElementById("queue");
+var input=document.getElementById("input");
+var item=document.getElementsByTagName("li");
+var query=document.getElementById("query");
+var searcher=document.getElementById("searcher");
+leftIn.onclick=function(){
+  var arr=[];
+  var reg=/[\s\r,、]/;
+  arr=input.value.split(reg);
+  for(var i=0;i<arr.length;i++){
+  var left=document.createElement("li");
+  left.innerHTML=arr[i];
+  left.setAttribute("class","num");
+  queue.insertBefore(left,queue.firstChild);
+  left.onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+}
+}
+rightIn.onclick=function(){
+  var arr=[];
+  var reg=/[\s\r,、]/;
+  arr=input.value.split(reg);            //字符串的split函数按正则规则分割字符串
+  for(var i=0;i<arr.length;i++){
+  var right=document.createElement("li");
+  right.innerHTML=arr[i];
+  right.setAttribute("class","num");
+  queue.appendChild(right); 
+  right.onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+}
+}
+leftOut.onclick=function(){
+  var temp=queue.removeChild(queue.firstChild);
+  if(temp==undefined){
+    temp=queue.removeChild(queue.firstChild);
+   alert(temp.innerHTML);
+}
+}
+rightOut.onclick=function(){
+  var temp=queue.removeChild(queue.lastChild);
+  if(temp==undefined){
+    temp=queue.removeChild(queue.lastChild);
+   alert(temp.innerHTML);
+}
+}
+for(i=0;i<item.length;i++){
+item[i].onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+} 
+
+
+searcher.onclick=function(){             //没想到搜索不需要什么正则，indexOf就行，因为是元素内容全部标记
+   for (var i = 0; i < item.length; i++) {
+     var p=item[i].innerHTML.indexOf(query.value);
+     if(p>-1){
+       item[i].style.color ="green";
+   }
+   else{
+       item[i].style.color ="white";
+   }
+ }    
+}
+
+</script>
+</body>
+</html>
