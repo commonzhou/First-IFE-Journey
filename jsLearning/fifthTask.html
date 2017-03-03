@@ -60,12 +60,23 @@ var queue=document.getElementById("queue");
 var input=document.getElementById("input");
 var item=document.getElementsByClassName("num");
 var sort=document.getElementById("sort");
-var regex=new RegExp("[10-100]");
+var regex=/^([1-9]\d|100)$/;                  //正则判断10到100
+var arr=new Array();
 
-  var j=0;
+for(var i=0;i<item.length;i++){
+  item[i].style.height=item[i].innerHTML*8+"px";
+  item[i].style.left=100+26*i+"px";
+  arr.push(item[i].innerHTML);
+  item[i].onclick=function(){
+     var temp=queue.removeChild(this);
+     alert(temp.innerHTML);
+  }
+}
+
+ j=0;
 leftIn.onclick=function(){
   if(!regex.test(input.value)){
-  alert("请输入10到100的数字： ");
+  alert("请输入10到100的整数： ");
 }
 else{
   var left=document.createElement("div");
@@ -74,6 +85,11 @@ else{
   left.style.height=left.innerHTML*8+"px";
   left.style.left=100-26*(j+1)+"px";
   queue.insertBefore(left,queue.firstChild);
+  left.onclick=function(){
+     var temp=queue.removeChild(this);
+     alert(temp.innerHTML);
+  }
+  arr.unshift(left.innerHTML);
   j++;
   if(item.length>60){
     alert("超过60个了");
@@ -82,15 +98,20 @@ else{
 }
 rightIn.onclick=function(){
   if(!regex.test(input.value)){
-  alert("请输入10到100的数字： ");
+  alert("请输入10到100的整数： ");
 }
 else{
   var right=document.createElement("div");
   right.innerHTML=input.value;
   right.setAttribute("class","num");
   right.style.height=right.innerHTML*8+"px";
-  right.style.left=100+26*item.length+"px";
+  right.style.left=100+26*(item.length-j)+"px";
   queue.appendChild(right); 
+ right.onclick=function(){                                  //之前一直删除不去，于是每一项加上一个onclick就行了
+     var temp=queue.removeChild(this);
+     alert(temp.innerHTML);
+  }
+  arr.push(right.innerHTML);                                //之前新加入的无法排序，因为没有加入到arr里面
   if(item.length>60){
     alert("超过60个了");
   }
@@ -105,17 +126,7 @@ rightOut.onclick=function(){
    alert(temp.innerHTML);
 }
 
-var arr=new Array();
 
-for(var i=0;i<item.length;i++){
-  item[i].style.height=item[i].innerHTML*8+"px";
-  item[i].style.left=100+26*i+"px";
-  arr.push(item[i].innerHTML);
-  item[i].onclick=function(){
-     var temp=queue.removeChild(this);
-     alert(temp.innerHTML);
-  }
-}
 /////////
 
  
@@ -143,6 +154,7 @@ function draw(){
   for(list in item){
    item[list].style.height=t[list]*8+"px";
    item[list].style.left=100+26*list+"px";
+   item[list].innerHTML=arr[list];                           //修复了排序时候的数字显示bug
   }
 }
 bubblesort(arr);

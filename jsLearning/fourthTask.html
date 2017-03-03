@@ -44,22 +44,36 @@ var rightOut=document.getElementById("removeAfter");
 var queue=document.getElementById("queue");
 var input=document.getElementById("input");
 var item=document.getElementsByTagName("li");
-if(isNaN(input.value)==true){
-	alert("请输入数字：");
+var reg=/\d+/;                            //正则判断输入的是否为数字
+leftIn.onclick=function(){
+if(!reg.test(input.value)){
+	alert("please input a number ");
 }
 else{
-leftIn.onclick=function(){
   var left=document.createElement("li");
   left.innerHTML=input.value;
   left.setAttribute("class","num");
   queue.insertBefore(left,queue.firstChild);
-
+  left.onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+}
 }
 rightIn.onclick=function(){
+if(!reg.test(input.value)){
+   alert("please input a number ");
+}
+else{
   var right=document.createElement("li");
   right.innerHTML=input.value;
   right.setAttribute("class","num");
   queue.appendChild(right); 
+  right.onclick=function(){
+   var temp=queue.removeChild(this);
+   alert(temp.innerHTML);
+}
+}
 }
 leftOut.onclick=function(){
   var temp=queue.removeChild(queue.firstChild);
@@ -81,7 +95,7 @@ item[i].onclick=function(){
    alert(temp.innerHTML);
 }
 }
-}
+
 </script>
 </body>
 </html>
