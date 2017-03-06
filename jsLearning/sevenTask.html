@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 </head>
 <body>
+<div id="doc">
   <div class="first">
     <div class="second">
     	<div class="third">
@@ -64,7 +65,14 @@
            </div>
     </div>
   </div>
+</div>
+<div id="buttons">
+	<input type="button" value="前序遍历" id="pre">
+	<input type="button" value="中序遍历" id="middle">
+	<input type="button" value="后序遍历" id="back">
+</div> 
   <style>
+
     div.first{
     	border:1px solid black;
     	width:600px;
@@ -90,5 +98,75 @@
     	border: 1px solid black;
     	margin:10px 7px 10px 7px;
     }
+    .chosen{
+    	background-color: blue;
+    }
+    .common{
+    	background-color: white;
+    }
+    input{
+    	margin:20px;
+    }
   </style>
+  <script>
+    var doc=document.getElementById("doc");
+    var pre=document.getElementById("pre");
+    var middle=document.getElementById("middle");
+    var back=document.getElementById("back");
+    var queue=[];
+  
+    function preOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   queue.push(node);
+           preOrder(node.firstElementChild);
+           preOrder(node.lastElementChild);
+    }	
+    }
+    function midOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   
+           midOrder(node.firstElementChild);
+           queue.push(node);
+           midOrder(node.lastElementChild);
+    }	
+    }
+ function backOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	  
+           backOrder(node.firstElementChild);
+           backOrder(node.lastElementChild);
+           queue.push(node);
+    }	
+    }
+ function clock(){
+ 	var data=queue.shift();
+ 	if(data){
+            data.style.backgroundColor="blue";
+ 		    timer=setTimeout(function(){
+ 			data.style.backgroundColor="white";
+            clock();
+ 		},1500);
+ 	}
+ }
+    pre.onclick=function(){
+
+    	preOrder(doc);
+    	var dataOne=queue.shift();   //第一个大框框不需要显示
+    	clock();      	
+    }
+    middle.onclick=function(){
+
+    	midOrder(doc);
+    	var pos=(queue.length-1)/2;
+    	var dataOne=queue.splice(pos,1);   //第一个大框框不需要显示
+    	clock();      	
+    }
+    back.onclick=function(){
+
+    	backOrder(doc);
+    	var dataOne=queue.pop();   //第一个大框框不需要显示
+    	clock();      	
+    }
+
+  </script>
 </body>
