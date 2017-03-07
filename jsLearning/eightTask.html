@@ -1,0 +1,204 @@
+<!doctype html>
+<head>
+<title>seven</title>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="doc">未来
+  <div class="first">如果
+    <div class="second">三月
+    	<div class="third">热烈 
+           </div>
+    	<div class="third">崩坏
+    		</div>
+    	<div class="third">存在
+    		 </div> 
+        <div class="third">哦哦
+           </div>
+    </div>
+    <div class="second">放手
+    </div>
+    <div class="second">光阴
+    	<div class="third">说爱
+           </div>
+        <div class="third">梦到
+           </div>
+    </div>
+  </div>
+  <div class="first">不再
+      <div class="second">浓烟
+    	<div class="third">是个
+    		</div>
+    	<div class="third">自在
+    		</div>
+        <div class="third">小孩
+            </div>
+    </div>
+    <div class="second">掩盖
+    	<div class="third">老去
+    		<div class="fourth">离开
+    		  </div>
+           </div>
+        <div class="third">渴望
+           </div>
+    </div>
+  </div>
+  <div class="first">玩弄
+  </div>
+</div>
+<div id="buttons">
+	<input type="button" value="前序遍历" id="pre">
+	<input type="button" value="中序遍历" id="middle">
+	<input type="button" value="后序遍历" id="back">
+    <input type="text" id="text">
+    <input type="button" value="查询" id="search">
+</div> 
+<div id="beizhu">
+PS: 绿色背景为找到的关键词，找不到会有文字提示
+</div>
+  <style>
+
+    div#doc{
+        display: flex;
+        border:1px solid black;
+        width:1000px;
+        height:200px;
+        margin-top: 20px;
+    }
+    div.first{
+    	border:1px solid black;
+    	
+    	margin: 15px 10px 15px 10px;
+    	display: flex;
+        flex:1;
+    }
+    div.second{
+    	flex:1;
+    	justify-content:space-around;
+    	border: 1px solid black;
+    	margin:15px 10px 15px 10px ;
+    	display: flex;
+    }
+    div.third{
+    	flex:1;
+    	border:1px solid black;
+    	margin:15px 10px 15px 10px ;
+    	display: flex;
+        text-align: center;
+    }
+    div.fourth{
+    	flex:1;
+    	border: 1px solid black;
+    	margin:10px 7px 10px 7px;
+    }
+    .chosen{
+    	background-color: blue;
+    }
+    .common{
+    	background-color: white;
+    }
+    input{
+    	margin:20px;
+    }
+    input#text{
+        margin:20px 1px 20px 60px;
+    }
+  </style>
+  <script>
+    var doc=document.getElementById("doc");
+    var pre=document.getElementById("pre");
+    var middle=document.getElementById("middle");
+    var back=document.getElementById("back");
+    var text=document.getElementById("text");
+    var search=document.getElementById("search");
+    var queue=[];
+    var data;
+    function preOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   queue.push(node);
+           for (var i = 0; i < node.children.length; i++) {
+               preOrder(node.children[i]);
+           };
+          
+    }	
+    }
+    function midOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   
+           midOrder(node.firstElementChild);
+           queue.push(node);
+           midOrder(node.lastElementChild);
+    }	
+    }
+    function backOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	  
+            for (var i = 0; i < node.children.length; i++) {
+               backOrder(node.children[i]);
+           };
+           queue.push(node);
+    }	
+    }
+    function clock(){
+    data=queue.shift();
+ 	if(data){
+            data.style.backgroundColor="blue";
+ 		    timer=setTimeout(function(){
+ 			data.style.backgroundColor="white";
+            clock();
+ 		},1500);
+ 	}
+ }
+ 
+ function searchClock(){
+    data=queue.shift();
+    if(data){
+      if(data.innerText.substr(0,2)!=text.value){     //innerText保证是纯文字。substr保证是前两个。。
+        data.style.backgroundColor="blue";
+        timer=setTimeout(function(){
+            data.style.backgroundColor="white";
+            searchClock();
+        },1500);
+      }
+      else{
+        data.style.backgroundColor="green";
+      }
+    }
+    else{
+       alert("找不到关键词");
+    }
+
+ }
+    function clearTemp(arr){
+     if(arr.length>0){
+        data.style.backgroundColor="white";    //还原变绿的颜色,此为data设为全局变量的妙处
+        arr=[];                           //清空queue数组的缓存
+        clearTimeout(timer);              //清空延时的事件
+     }
+ }
+    pre.onclick=function(){
+
+    	preOrder(doc);
+    	clock();      	
+    }
+    middle.onclick=function(){
+
+    	midOrder(doc);
+    	var pos=(queue.length-1)/2;
+    	var dataOne=queue.splice(pos,1);   //第一个大框框不需要显示
+    	clock();      	
+    }
+    back.onclick=function(){
+
+    	backOrder(doc);
+    	clock();      	
+    }
+    search.onclick=function(){
+        clearTemp(queue);
+        preOrder(doc);
+        searchClock();
+      
+    }
+
+  </script>
+</body>
