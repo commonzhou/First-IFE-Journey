@@ -5,9 +5,9 @@
 </head>
 <body>
 <div id="doc">未来
-  <div class="first">如果
-    <div class="second">三月
-    	<div class="third">热烈 
+  <div class="first">如
+    <div class="second">三月下
+    	<div class="third">热烈
            </div>
     	<div class="third">崩坏
     		</div>
@@ -153,7 +153,14 @@ PS: 绿色背景为找到的关键词，找不到会有文字提示
  function searchClock(){
     data=queue.shift();
     if(data){
-      if(data.innerText.substr(0,2)!=text.value){     //innerText保证是纯文字。substr保证是前两个。。
+      var current=data.innerText;
+      var next=queue[0].innerText;
+      var pos=current.indexOf(next);                  //父的文字indexOf子的文字，可以任意增加字数了。。
+      var temp;
+      if(pos>0) temp=data.innerText.substr(0,pos-1);  //innerText保证是纯文字。substr保证是前两个。。
+      else  temp=data.innerText;
+     
+      if(temp !=text.value){     
         data.style.backgroundColor="blue";
         timer=setTimeout(function(){
             data.style.backgroundColor="white";
