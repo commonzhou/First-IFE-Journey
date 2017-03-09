@@ -1,0 +1,264 @@
+<!doctype html>
+<head>
+<title>nine</title>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="doc" class="zero">未来
+  <div class="first">如
+    <div class="second">三月下
+    	<div class="third">热烈
+           </div>
+    	<div class="third">崩坏
+    		</div>
+    	<div class="third">存在
+    		 </div> 
+        <div class="third">哦哦
+           </div>
+    </div>
+    <div class="second">放手
+    </div>
+    <div class="second">光阴
+    	<div class="third">说爱
+           </div>
+        <div class="third">梦到
+           </div>
+    </div>
+  </div>
+  <div class="first">不再
+      <div class="second">浓烟
+    	<div class="third">是个
+    		</div>
+    	<div class="third">自在
+    		</div>
+        <div class="third">小孩
+            </div>
+    </div>
+    <div class="second">掩盖
+    	<div class="third">老去
+    		<div class="fourth">离开
+    		  </div>
+           </div>
+        <div class="third">渴望
+           </div>
+    </div>
+  </div>
+  <div class="first">玩弄
+  </div>
+</div>
+<div id="buttons">
+	<input type="button" value="前序遍历" id="pre">
+	<input type="button" value="中序遍历" id="middle">
+	<input type="button" value="后序遍历" id="back">
+    <input type="text" class="text" id="text">
+    <input type="button" value="查询" id="search">
+    <input type="button" value="删除" id="delete">
+     <input type="text" class="text" id="addText">
+    <input type="button" value="增加" id="add">
+</div> 
+<div id="beizhu">
+PS: 绿色背景为找到的关键词，找不到会有文字提示。 如果选定，背景为红色。
+</div>
+  <style>
+
+    div.zero{
+        display: flex;
+        border:1px solid black;
+        width:1000px;
+        height:200px;
+        margin-top: 20px;
+    }
+    div.first{
+    	border:1px solid black;
+    	
+    	margin: 15px 10px 15px 10px;
+    	display: flex;
+        flex:1;
+    }
+    div.second{
+    	flex:1;
+    	justify-content:space-around;
+    	border: 1px solid black;
+    	margin:15px 10px 15px 10px ;
+    	display: flex;
+    }
+    div.third{
+    	flex:1;
+    	border:1px solid black;
+    	margin:15px 10px 15px 10px ;
+    	display: flex;
+        text-align: center;
+    }
+    div.fourth{
+    	flex:1;
+    	border: 1px solid black;
+    	margin:10px 7px 10px 7px;
+      display: flex;
+    }
+    div.fifth{
+      flex:1;
+      border: 1px solid black;
+      margin:4px 2px 4px 2px;
+    }
+    .chosen{
+    	background-color: blue;
+    }
+    .common{
+    	background-color: white;
+    }
+    input{
+    	margin:20px;
+    }
+    input.text{
+        margin:20px 1px 20px 60px;
+    }
+    input#delete{
+      margin-right: 1px;
+      margin-left: 40px;
+    }
+  </style>
+  <script>
+    var doc=document.getElementById("doc");
+    var pre=document.getElementById("pre");
+    var middle=document.getElementById("middle");
+    var back=document.getElementById("back");
+    var text=document.getElementById("text");
+    var search=document.getElementById("search");
+    var dele=document.getElementById("delete");
+    var addtext=document.getElementById("addText");
+    var add=document.getElementById("add");
+    var queue=[];
+    var data;
+    function preOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   queue.push(node);
+           for (var i = 0; i < node.children.length; i++) {
+               preOrder(node.children[i]);
+           };
+          
+    }	
+    }
+    function midOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	   
+           midOrder(node.firstElementChild);
+           queue.push(node);
+           midOrder(node.lastElementChild);
+    }	
+    }
+    function backOrder(node){
+    	if(node!=null){              //一定要判断非空
+    	  
+            for (var i = 0; i < node.children.length; i++) {
+               backOrder(node.children[i]);
+           };
+           queue.push(node);
+    }	
+    }
+    function clock(){
+    data=queue.shift();
+ 	if(data){
+            data.style.backgroundColor="blue";
+ 		    timer=setTimeout(function(){
+ 			data.style.backgroundColor="white";
+            clock();
+ 		},1500);
+ 	}
+ }
+ 
+ function searchClock(){
+    data=queue.shift();
+    if(data){
+      var current=data.innerText;
+      var next=queue[0].innerText;
+      var pos=current.indexOf(next);                  //父的文字indexOf子的文字，可以任意增加字数了。。
+      var temp;
+      if(pos>0) temp=data.innerText.substr(0,pos-1);  //innerText保证是纯文字。substr截取字符串。pos-1是因为父子的文字之间有一个空格。。要减去空格的位置，才可以正确比较。
+      else  temp=data.innerText;
+     
+      if(temp !=text.value){     
+        data.style.backgroundColor="blue";
+        timer=setTimeout(function(){
+            data.style.backgroundColor="white";
+            searchClock();
+        },1500);
+      }
+      else{
+        data.style.backgroundColor="green";
+      }
+    }
+    else{
+       alert("找不到关键词");
+    }
+
+ }
+    function clearTemp(arr){
+     if(arr.length>0){
+        data.style.backgroundColor="white";    //还原变绿的颜色,此为data设为全局变量的妙处
+        arr=[];                           //清空queue数组的缓存
+        clearTimeout(timer);              //清空延时的事件
+     }
+ }
+    pre.onclick=function(){
+
+    	preOrder(doc);
+    	clock();      	
+    }
+    middle.onclick=function(){
+
+    	midOrder(doc);
+    	var pos=(queue.length-1)/2;
+    	var dataOne=queue.splice(pos,1);   //第一个大框框不需要显示
+    	clock();      	
+    }
+    back.onclick=function(){
+
+    	backOrder(doc);
+    	clock();      	
+    }
+    search.onclick=function(){
+      if(text.value=="")
+        alert("请输入要查询的文字： ");
+      else{
+        clearTemp(queue);
+        preOrder(doc);
+        searchClock();
+      }
+    }
+   doc.addEventListener("click",function(e){
+     var target=e.target;                           //　target 事件属性可返回事件的目标节点（触发该事件的节点）
+     if(target.nodeName!="DIV") return;             //获取事件触发元素标签name
+     target.style.backgroundColor="red";
+     dele.onclick=function(){
+      target.parentNode.removeChild(target);
+     }
+     add.onclick=function(){
+      if(addtext.value=="")
+        alert("请输入要增加的文字： ");
+      else{
+        var part=document.createElement("div");
+        part.innerText=addtext.value;
+        var parentNum=target.getAttribute("class");
+        if(parentNum=="zero"){
+          part.setAttribute("class","first");
+        }
+        if(parentNum=="first"){
+          part.setAttribute("class","second");
+        }
+          if(parentNum=="second"){
+          part.setAttribute("class","third");
+        }
+          if(parentNum=="third"){
+          part.setAttribute("class","fourth");
+        }
+          if(parentNum=="fourth"){
+          part.setAttribute("class","fifth");
+        }
+        target.appendChild(part);
+      }
+     }
+     
+   },false);
+
+  </script>
+</body>
