@@ -86,8 +86,8 @@ function render(data) {
       var item=document.createElement("li");
       
       item.innerHTML="第"+(i+1)+"名:"+data[i][0];
-      var bold=document.createElement("b");        //????为什么bold就包含进去了呢，灵异事件啊
-      bold.innerHTML=data[i][1];
+     // var bold=document.createElement("b");        //????为什么bold就包含进去了呢，灵异事件啊,因为没有清楚innerHTML和innerText的不同，既然是innerHTML了，就包含了b元素及其内容
+     // bold.innerHTML=data[i][1];
       newList.appendChild(item);
 
    };

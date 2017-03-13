@@ -154,7 +154,8 @@ function draw(){
   for(list in item){
    item[list].style.height=t[list]*8+"px";
    item[list].style.left=100+26*list+"px";
-   item[list].innerHTML=arr[list];                           //修复了排序时候的数字显示bug
+   item[list].innerHTML=t[list];                           //修复了排序时候的数字显示bug
+                                                           //此处应该是t[list]，为其中一次排序结果，之前的arr[list]是最终排序结果，谬矣
   }
 }
 bubblesort(arr);
