@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>css practice</title>
+</head>
+<body>
+	<div id="back">
+		<div id="main">
+		</div>
+		<div id="left">
+		</div>
+		<div id="right">
+		</div>
+	</div>
+<style>
+    body{
+        margin-top:0;                     
+        margin-left:0;
+    }
+    #back{
+    	width:800px;
+    	height:600px;
+    	border:0.1px solid black;	
+    	position: relative;                   /*事实上，不管父元素是absolute还是relative，其absolute的孩子都是按照父元素来定位，除非不设置或者是static，那子元素就是按照body来进行定位了*/
+    	resize: both;                        /*这两句规定可以由用户调整 div 元素的大小，不过chrome暂时不支持*/
+        overflow: auto;
+    }
+    #main{
+    	width:400px;
+    	height:200px;
+    	background-color: #ccc;
+    	border:0.1px solid #ccc;
+    	position:absolute;
+    	left:25%;
+    	top:33.3%;
+    	/*margin为何不行*/
+    }
+    #left{
+       width:50px;
+       height:50px;
+       background: #fc0;
+       border:0.1px solid #fc0;
+       border-bottom-right-radius:50px;            /*灵异事件啊*/
+       position:absolute;
+       left:25%;
+       top:33.3%;
+    }
+    #right{
+        width:50px;
+        height:50px;
+        position:absolute;
+        left:68.75%;                                /*按照div的左上角来定位*/
+        top:58.3%;
+        background-color:#fc0; 
+        border-top-left-radius:50px;
+    }
+
+</style>
+</body>
+</html>
